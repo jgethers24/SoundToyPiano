@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 namespace JR
 {    public class PlayerController : MonoBehaviour
     {
@@ -15,37 +17,85 @@ namespace JR
         public GameObject k_key;
         public GameObject l_key;
         public GameObject semiColon_key;
+        public new GameObject particleSystem;
+        public GameObject instruction;
+        public GameObject instruction2;
+        public GameObject memorizeSign;
+        public GameObject playBackSign;
+
         public int amountOfKeysPressed;
+        public int trueBooleans;
         public float beatsPerMinute;
         public float metronomePace;
         public int beatsPassed = 0;
+        public bool failed;
+        public bool check1;
+        public bool check2;
+        public bool check3;
+        public bool check4;
 
-        public bool level1;
-        public bool level2;
-        public bool level3;
-        public bool level4;
-        public bool level5;
+        public float playerInputWindow;
+        public bool particlesStarted;
+        public float particleStartDelay;
 
+        //public bool level1;
+        //public bool level2;
+        //public bool level3;
+        //public bool level4;
+        //public bool level5;
 
-
+        public AudioMixer audioMixer;
+        public AudioSource failSound;
+        public AudioSource memorizeStart;
+        public AudioSource memorizeFinish;
+        //public AudioSource roundStart;
+        //public AudioMixerSnapshot snapshot;
 
         InputHandler inputHandler;
         void Start()
         {
+            playerInputWindow = 0;
+            failed = false;
+            particlesStarted = false;
             amountOfKeysPressed = 0;
-            level1 = false;
-            level2 = false;
-            level3 = false;
-            level4 = false;
-            level5 = false;
+            audioMixer.FindSnapshot("Snapshot");
+            //level1 = false;
+            //level2 = false;
+            //level3 = false;
+            //level4 = false;
+            //level5 = false;
             metronomePace = 60/beatsPerMinute;
+            particleStartDelay = metronomePace - 0.05f;
             inputHandler = GetComponent<InputHandler>();
-            StartCoroutine(Metronome(metronomePace));
+            //StartCoroutine(Metronome(metronomePace));
         }
 
         // Update is called once per frame
         void Update()
         {
+            ResetOutline();
+            CheckPlayerInput();
+            BeatInputs();
+            /*if (playerInputWindow>0)
+            {
+                
+                
+                playerInputWindow -= Time.deltaTime;
+                if (playerInputWindow<0)
+                {
+                    playerInputWindow = 0;
+                }
+            }*/
+            if (!particlesStarted)
+            {
+                particleStartDelay -= Time.deltaTime;
+                if (particleStartDelay<= 0)
+                {
+                    particlesStarted = true;
+                    StartCoroutine(ParticleSpawner(metronomePace));
+                }
+            }
+
             if (inputHandler.a_Input)
             {
                 a_key.transform.localPosition = new Vector3(-2.555267f, 0.3f, -1);
@@ -130,376 +180,476 @@ namespace JR
         public void CheckPlayerInput()
         {
             if (inputHandler.a_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.s_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.d_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.f_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.g_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.h_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.j_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.k_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.l_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
             if (inputHandler.semiColon_Input)
-                amountOfKeysPressed++;
+                trueBooleans++;
+            amountOfKeysPressed = trueBooleans;
+            trueBooleans = 0;
         }
-        private IEnumerator Metronome(float waitTime)
+        private IEnumerator ParticleSpawner(float waitTime)
         {
             while (true)
             {
                 yield return new WaitForSeconds(waitTime);
-                CheckPlayerInput();
-                BeatInputs();
+                particleSystem.GetComponent<ParticleSystem>().Play();
+                //BeatInputs();
+                playerInputWindow = metronomePace;
                 amountOfKeysPressed = 0;
                 beatsPassed++;
                 //print("WaitAndPrint " + Time.time);
                 //print("Beats Passed " + beatsPassed);
             }
         }
+        private void ResetOutline()
+        {
+            if(a_key.GetComponent<Outline>().OutlineWidth >=0)
+                a_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (s_key.GetComponent<Outline>().OutlineWidth >= 0)
+                s_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (d_key.GetComponent<Outline>().OutlineWidth >= 0)
+                d_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (f_key.GetComponent<Outline>().OutlineWidth >= 0)
+                f_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (g_key.GetComponent<Outline>().OutlineWidth >= 0)
+                g_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (h_key.GetComponent<Outline>().OutlineWidth >= 0)
+                h_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (j_key.GetComponent<Outline>().OutlineWidth >= 0)
+                j_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (k_key.GetComponent<Outline>().OutlineWidth >= 0)
+                k_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (l_key.GetComponent<Outline>().OutlineWidth >= 0)
+                l_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+            if (semiColon_key.GetComponent<Outline>().OutlineWidth >= 0)
+                semiColon_key.GetComponent<Outline>().OutlineWidth -= 7 * Time.deltaTime;
+        }
         private void BeatInputs()
         {
             switch (beatsPassed)
             {
-                case 0:
-                    if (inputHandler.a_Input && inputHandler.g_Input && amountOfKeysPressed==2)
-                    {
-                        Debug.Log("Player Passes A+G Check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                case 0://Should be a No beat
+                                    //audioMixer.SetFloat("GameStartSound", 0);
+                    failed = false;
+                    check1 = false;
+                    check2 = false;
+                    check3 = false;
+                    check4 = false;
+
+                    audioMixer.SetFloat("LVL1Volume", -80);
+                    audioMixer.SetFloat("DRUMVOLUME", -80);
+                    audioMixer.SetFloat("LVL2Volume", -80);
+                    audioMixer.SetFloat("LVL3Volume", -80);
+                    audioMixer.SetFloat("LVL4Volume", -80);
                     break;
+                
                 case 1:
-                    if (inputHandler.a_Input && inputHandler.g_Input && inputHandler.h_Input && amountOfKeysPressed == 3)
+                                    //audioMixer.SetFloat("GameStartSound", -80);
+                    audioMixer.SetFloat("DRUMVOLUME", 0);
+                    audioMixer.SetFloat("LVL1Volume", 0);
+                    if (!memorizeStart.isPlaying)
                     {
-                        Debug.Log("Player Passes A+G+H Check" + beatsPassed);
+                        memorizeStart.Play();
+                        memorizeSign.SetActive(true);
                     }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    instruction2.SetActive(true);
                     break;
+                
                 case 2:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
                     break;
+                
                 case 3:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    memorizeStart.loop = false;
+                    memorizeSign.SetActive(false);
                     break;
+
                 case 4:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
                     break;
+
                 case 5:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    
+                    instruction2.SetActive(false);
+
                     break;
+                
                 case 6:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    if (!memorizeStart.isPlaying)
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                        memorizeStart.Play();
+                        memorizeSign.SetActive(true);
+                    } 
+                    a_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+                
                 case 7:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    s_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+
                 case 8:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    d_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+
                 case 9:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    f_key.GetComponent<Outline>().OutlineWidth = 10;
+                    
                     break;
+
                 case 10:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    memorizeSign.SetActive(false);
+                    if (!memorizeFinish.isPlaying)
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
+                        memorizeFinish.Play();
                     }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    instruction.SetActive(true);
                     break;
+
                 case 11:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    memorizeFinish.loop = false;
                     break;
+
                 case 12:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
                     break;
+
                 case 13:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
                     break;
+
                 case 14:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    instruction.SetActive(false);
+                    if (!memorizeFinish.isPlaying)
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        memorizeFinish.Play();
                     }
                     break;
+
                 case 15:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    //LVL 1 checks start here
+                    playBackSign.SetActive(true);
+                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -9
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        Debug.Log("pass" + beatsPassed);
+                        check1 = true;
                     }
                     break;
+
                 case 16:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    if (inputHandler.s_Input && amountOfKeysPressed == 1)//should match this Case -9
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        Debug.Log("pass" + beatsPassed);
+                        check2 = true;
                     }
                     break;
+
                 case 17:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    
+                    if (inputHandler.d_Input && amountOfKeysPressed == 1)//should match this Case -9
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        Debug.Log("pass" + beatsPassed);
+                        check3 = true;
                     }
                     break;
+
                 case 18:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -9
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
+                        Debug.Log("pass" + beatsPassed);
+                        check4 = true;
                     }
-                    else
+                    if (!check1 || !check2 || !check3 || !check4)
                     {
-                        print("Failed  " + beatsPassed);
+                        failed = true;
+                    }
+                    if (check1 && check2 && check3 && check4)
+                    {
+                        failed = false;
                     }
                     break;
+
                 case 19:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    playBackSign.SetActive(false);
+                    if (failed)
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
+                        beatsPassed = 0;
+                        break;
                     }
-                    else
+                    check1 = false;
+                    check2 = false;
+                    check3 = false;
+                    check4 = false;
+                    if (!memorizeStart.isPlaying)
                     {
-                        print("Failed  " + beatsPassed);
+                        memorizeStart.Play();
+                        memorizeSign.SetActive(true);
                     }
+                    audioMixer.SetFloat("LVL2Volume", 0);
                     break;
-                case 20:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                case 20:                    //lvl 2 memorization start
+                    f_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+
                 case 21:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    j_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+
                 case 22:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    f_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+
                 case 23:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    k_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
-                case 24:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+
+                case 24:                //lvl2 memorize finish
+                    if (!memorizeFinish.isPlaying)
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        memorizeSign.SetActive(false);
+                        memorizeFinish.Play();
                     }
                     break;
                 case 25:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    playBackSign.SetActive(true);
+                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -5
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        check1 = true;
+                        Debug.Log("pass" + beatsPassed);
                     }
                     break;
+
                 case 26:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    if (inputHandler.j_Input && amountOfKeysPressed == 1)//should match this Case -5
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        check2 = true;
+                        Debug.Log("pass" + beatsPassed);
                     }
                     break;
+
                 case 27:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -5
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        check3 = true;
+                        Debug.Log("pass" + beatsPassed);
                     }
                     break;
+
                 case 28:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    if (inputHandler.k_Input && amountOfKeysPressed == 1)//should match this Case -5
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
+                        check4 = true;
+                        Debug.Log("pass" + beatsPassed);
                     }
-                    else
+                    if (!check1 || !check2 || !check3 || !check4)
                     {
-                        print("Failed  " + beatsPassed);
+                        failed = true;
+                    }
+                    if (check1 && check2 && check3 && check4)
+                    {
+                        failed = false;
                     }
                     break;
                 case 29:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    playBackSign.SetActive(false);
+                    if (failed)
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
+                        beatsPassed = 0;
+                        break;
                     }
-                    else
+                    check1 = false;
+                    check2 = false;
+                    check3 = false;
+                    check4 = false;
+                    if (!memorizeStart.isPlaying)
                     {
-                        print("Failed  " + beatsPassed);
+                        memorizeStart.Play();
+                        memorizeSign.SetActive(true);
                     }
+                    audioMixer.SetFloat("LVL3Volume", 0);
                     break;
-                case 30:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+
+                case 30:                    //lvl 3 memorization start
+                    a_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+
                 case 31:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
-                    {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
-                    }
+                    semiColon_key.GetComponent<Outline>().OutlineWidth = 10;
                     break;
+
                 case 32:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)
+                    j_key.GetComponent<Outline>().OutlineWidth = 10;
+                    break;
+
+                case 33:
+                    f_key.GetComponent<Outline>().OutlineWidth = 10;
+                    break;
+                case 34:
+                    if (!memorizeFinish.isPlaying)
                     {
-                        Debug.Log("Player Passes s check" + beatsPassed);
-                    }
-                    else
-                    {
-                        print("Failed  " + beatsPassed);
+                        memorizeFinish.Play();
+                        memorizeSign.SetActive(false);
                     }
                     break;
-                default:
+
+                case 35:                //lvl3 memorize finish
+                    playBackSign.SetActive(true);
+                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check1 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    break;
+
+                case 36:
+                    if (inputHandler.semiColon_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check2 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    break;
+
+                case 37:
+                    if (inputHandler.j_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check3 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    break;
+
+                case 38:
+                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check4 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    if (!check1 || !check2 || !check3 || !check4)
+                    {
+                        failed = true;
+                    }
+                    if (check1 && check2 && check3 && check4)
+                    {
+                        failed = false;
+                    }
+                    break;
+                case 39:
+                    playBackSign.SetActive(false);
+                    if (failed)
+                    {
+                        beatsPassed = 0;
+                        break;
+                    }
+                    check1 = false;
+                    check2 = false;
+                    check3 = false;
+                    check4 = false;
+                    if (!memorizeStart.isPlaying)
+                    {
+                        memorizeStart.Play();
+                        memorizeSign.SetActive(true);
+                    }
+                    audioMixer.SetFloat("LVL4Volume", 0);
+                    break;
+                case 40:                    //lvl 3 memorization start
+                    
+                    a_key.GetComponent<Outline>().OutlineWidth = 10;
+                    break;
+
+                case 41:
+                    semiColon_key.GetComponent<Outline>().OutlineWidth = 10;
+                    break;
+
+                case 42:
+                    j_key.GetComponent<Outline>().OutlineWidth = 10;
+                    break;
+
+                case 43:
+                    f_key.GetComponent<Outline>().OutlineWidth = 10;
+                    break;
+                case 44:
+                    if (!memorizeFinish.isPlaying)
+                    {
+                        memorizeFinish.Play();
+                        memorizeSign.SetActive(false);
+                    }
+                    break;
+
+                case 45:                //lvl3 memorize finish
+                    playBackSign.SetActive(true);
+                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check1 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    break;
+
+                case 46:
+                    if (inputHandler.semiColon_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check2 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    break;
+
+                case 47:
+                    if (inputHandler.j_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check3 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    break;
+
+                case 48:
+                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -5
+                    {
+                        check4 = true;
+                        Debug.Log("pass" + beatsPassed);
+                    }
+                    if (!check1 || !check2 || !check3 || !check4)
+                    {
+                        failed = true;
+                    }
+                    if (check1 && check2 && check3 && check4)
+                    {
+                        failed = false;
+                    }
+                    break;
+                case 49:
+                    playBackSign.SetActive(false);
+                    if (failed)
+                    {
+                        beatsPassed = 0;
+                        break;
+                    }
+                    break;
+                case 55:
+                    audioMixer.SetFloat("LVL1Volume", -80);
+                    audioMixer.SetFloat("DRUMVOLUME", -80);
+                    audioMixer.SetFloat("LVL2Volume", -80);
+                    audioMixer.SetFloat("LVL3Volume", -80);
+                    audioMixer.SetFloat("LVL4Volume", -80);
                     print("Hit default" + beatsPassed);
                     break;
+
+                    /*
+                    default:
+                        audioMixer.SetFloat("LVL1Volume", -80);
+                        audioMixer.SetFloat("DRUMVOLUME", -80);
+                        audioMixer.SetFloat("LVL2Volume", -80);
+                        audioMixer.SetFloat("LVL3Volume", -80);
+                        audioMixer.SetFloat("LVL4Volume", -80);
+                        print("Hit default" + beatsPassed);
+                        break;*/
             }
         }
     }
