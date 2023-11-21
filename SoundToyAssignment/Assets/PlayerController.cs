@@ -38,18 +38,10 @@ namespace JR
         public bool particlesStarted;
         public float particleStartDelay;
 
-        //public bool level1;
-        //public bool level2;
-        //public bool level3;
-        //public bool level4;
-        //public bool level5;
-
         public AudioMixer audioMixer;
         public AudioSource failSound;
         public AudioSource memorizeStart;
         public AudioSource memorizeFinish;
-        //public AudioSource roundStart;
-        //public AudioMixerSnapshot snapshot;
 
         InputHandler inputHandler;
         void Start()
@@ -59,13 +51,8 @@ namespace JR
             particlesStarted = false;
             amountOfKeysPressed = 0;
             audioMixer.FindSnapshot("Snapshot");
-            //level1 = false;
-            //level2 = false;
-            //level3 = false;
-            //level4 = false;
-            //level5 = false;
             metronomePace = 60/beatsPerMinute;
-            particleStartDelay = metronomePace - 0.05f;
+            particleStartDelay = metronomePace;
             inputHandler = GetComponent<InputHandler>();
             //StartCoroutine(Metronome(metronomePace));
         }
