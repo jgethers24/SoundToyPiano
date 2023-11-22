@@ -254,13 +254,13 @@ namespace JR
                     check6 = false;
                     check7 = false;
                     check8 = false;
-                    audioMixer.SetFloat("AmbientVolume", 10);
+                    audioMixer.SetFloat("AmbientVolume", 5);
                     audioMixer.SetFloat("LVL1Volume", -80);
                     audioMixer.SetFloat("DRUMVOLUME", -80);
                     audioMixer.SetFloat("LVL2Volume", -80);
                     audioMixer.SetFloat("LVL3Volume", -80);
                     audioMixer.SetFloat("LVL4Volume", -80);
-                    audioMixer.SetFloat("DRUMVOLUME", 0);
+                    audioMixer.SetFloat("DRUMVOLUME", -15);
                     if (!memorizeStart.isPlaying)
                     {
                         memorizeStart.Play();
@@ -275,7 +275,7 @@ namespace JR
                 
                 case 9:
                     audioMixer.SetFloat("LVL1Volume", 0);
-                    audioMixer.SetFloat("AmbientVolume", 5);
+                    audioMixer.SetFloat("AmbientVolume", 0);
                     memorizeSign.SetActive(false);
                     break;
 
@@ -306,32 +306,32 @@ namespace JR
                     }
                     break;
                 case 20:                                                                                   //Lvl 1 memorization starts here
-                    if (a_key.GetComponent<Outline>().OutlineWidth <=0)
+                    if (d_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
-                        a_key.GetComponent<Outline>().OutlineWidth = 20;
+                        d_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
          
 
                 case 21:
-                    if (s_key.GetComponent<Outline>().OutlineWidth <=0)
+                    if (f_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
-                        s_key.GetComponent<Outline>().OutlineWidth = 20;
+                        f_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     
                     break;
 
                 case 22:
-                    if (d_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (g_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        d_key.GetComponent<Outline>().OutlineWidth = 20;
+                        g_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
                 case 23:
-                    if (f_key.GetComponent<Outline>().OutlineWidth <=0)
+                    if (h_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
-                        f_key.GetComponent<Outline>().OutlineWidth = 20;
+                        h_key.GetComponent<Outline>().OutlineWidth = 20;
                     }                   
                     break;
 
@@ -347,7 +347,7 @@ namespace JR
                     playBackSign.SetActive(true);
                     break;
                 case 28:
-                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.d_Input && amountOfKeysPressed == 1)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check1 = true;
@@ -359,7 +359,7 @@ namespace JR
                     break;
 
                 case 29:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check2 = true;
@@ -367,7 +367,7 @@ namespace JR
                     break;
 
                 case 30:
-                    if (inputHandler.d_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.g_Input && amountOfKeysPressed == 1)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check3 = true;
@@ -375,7 +375,7 @@ namespace JR
                     break;
 
                 case 31:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.h_Input && amountOfKeysPressed == 1)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check4 = true;
@@ -406,7 +406,7 @@ namespace JR
                     check7 = false;
                     check8 = false;
                     audioMixer.SetFloat("LVL2Volume", 0);
-                    audioMixer.SetFloat("AmbientVolume", 0);
+                    audioMixer.SetFloat("AmbientVolume", -5);
                     break;
 
                 case 33:
@@ -426,9 +426,9 @@ namespace JR
                     }
                     break;
                 case 40:                                                                            //lvl 2 memorization start
-                    if (f_key.GetComponent<Outline>().OutlineWidth <=0)
+                    if (k_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
-                        f_key.GetComponent<Outline>().OutlineWidth = 20;
+                        k_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     
                     break;
@@ -441,29 +441,29 @@ namespace JR
                     break;
 
                 case 42:
-                    if (f_key.GetComponent<Outline>().OutlineWidth <=0)
-                    {
-                        f_key.GetComponent<Outline>().OutlineWidth = 20;
-                    }
-                    break;
-
-                case 43:
                     if (k_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
                         k_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
-                case 44:
-                    if (f_key.GetComponent<Outline>().OutlineWidth <=0)
+
+                case 43:
+                    if (l_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
-                        f_key.GetComponent<Outline>().OutlineWidth = 20;
+                        l_key.GetComponent<Outline>().OutlineWidth = 20;
+                    }
+                    break;
+                case 44:
+                    if (s_key.GetComponent<Outline>().OutlineWidth <=0)
+                    {
+                        s_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
                 case 45:
-                    if (d_key.GetComponent<Outline>().OutlineWidth <=0)
+                    if (a_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
-                        d_key.GetComponent<Outline>().OutlineWidth = 20;
+                        a_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
@@ -475,9 +475,9 @@ namespace JR
                     break;
 
                 case 47:
-                    if (a_key.GetComponent<Outline>().OutlineWidth <=0)
+                    if (f_key.GetComponent<Outline>().OutlineWidth <=0)
                     {
-                        a_key.GetComponent<Outline>().OutlineWidth = 20;
+                        f_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
                 case 48:
@@ -492,7 +492,7 @@ namespace JR
                     playBackSign.SetActive(true);
                     break;
                 case 56:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.k_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check1 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -508,7 +508,7 @@ namespace JR
                     break;
 
                 case 58:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.k_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check3 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -516,7 +516,7 @@ namespace JR
                     break;
                 case 59:
                     playBackSign.SetActive(true);
-                    if (inputHandler.k_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.l_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check4 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -524,7 +524,7 @@ namespace JR
                     break;
 
                 case 60:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.s_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check5 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -532,7 +532,7 @@ namespace JR
                     break;
 
                 case 61:
-                    if (inputHandler.d_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check6 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -546,7 +546,7 @@ namespace JR
                     }
                     break;
                 case 63:
-                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check8 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -577,7 +577,7 @@ namespace JR
                     check7 = false;
                     check8 = false;
                     audioMixer.SetFloat("LVL3Volume", 0);
-                    audioMixer.SetFloat("AmbientVolume", -5);
+                    audioMixer.SetFloat("AmbientVolume", -10);
                     break;
 
                 case 65:
@@ -598,31 +598,33 @@ namespace JR
                     }
                     break;
                 case 70:
-                    if (a_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (l_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        a_key.GetComponent<Outline>().OutlineWidth = 20;
+                        l_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
 
                 case 71:
-                    if (s_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (h_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        s_key.GetComponent<Outline>().OutlineWidth = 20;
+                        h_key.GetComponent<Outline>().OutlineWidth = 20;
+                        f_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
 
                     break;
 
                 case 72:
-                    if (d_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (j_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        d_key.GetComponent<Outline>().OutlineWidth = 20;
+                        j_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
                 case 73:
-                    if (f_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (h_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
+                        h_key.GetComponent<Outline>().OutlineWidth = 20;
                         f_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
@@ -641,7 +643,7 @@ namespace JR
                 case 78:
                                                                                                                         //LVL 3 checks start here
                     playBackSign.SetActive(true);
-                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.l_Input && amountOfKeysPressed == 1)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check1 = true;
@@ -653,7 +655,7 @@ namespace JR
                     break;
 
                 case 79:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.h_Input && inputHandler.f_Input && amountOfKeysPressed == 2)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check2 = true;
@@ -662,7 +664,7 @@ namespace JR
 
                 case 80:
 
-                    if (inputHandler.d_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.j_Input && amountOfKeysPressed == 1)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check3 = true;
@@ -670,7 +672,7 @@ namespace JR
                     break;
 
                 case 81:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -8
+                    if (inputHandler.h_Input && inputHandler.f_Input && amountOfKeysPressed == 2)//should match this Case -8
                     {
                         Debug.Log("pass" + beatsPassed);
                         check4 = true;
@@ -700,8 +702,8 @@ namespace JR
                     check6 = false;
                     check7 = false;
                     check8 = false;
-                    audioMixer.SetFloat("LVL2Volume", 0);
-                    audioMixer.SetFloat("AmbientVolume", -10);
+                    audioMixer.SetFloat("LVL4Volume", 0);
+                    audioMixer.SetFloat("AmbientVolume", -15);
                     break;
 
                 case 83:
@@ -721,58 +723,63 @@ namespace JR
                     }
                     break;
                 case 90:                                                            //lvl 4 memorization start
-                    if (f_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (h_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        f_key.GetComponent<Outline>().OutlineWidth = 20;
+                        h_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
 
                     break;
 
                 case 91:
+                    if (l_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    {
+                        l_key.GetComponent<Outline>().OutlineWidth = 20;
+                        j_key.GetComponent<Outline>().OutlineWidth = 20;
+                    }
+                    break;
+
+                case 92:
+                    if (g_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    {
+                        g_key.GetComponent<Outline>().OutlineWidth = 20;
+                    }
+                    break;
+
+                case 93:
+                    if (f_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    {
+                        f_key.GetComponent<Outline>().OutlineWidth = 20;
+                        s_key.GetComponent<Outline>().OutlineWidth = 20;
+                    }
+                    break;
+                case 94:
                     if (j_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
                         j_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
-                case 92:
-                    if (f_key.GetComponent<Outline>().OutlineWidth <= 0)
-                    {
-                        f_key.GetComponent<Outline>().OutlineWidth = 20;
-                    }
-                    break;
-
-                case 93:
-                    if (k_key.GetComponent<Outline>().OutlineWidth <= 0)
-                    {
-                        k_key.GetComponent<Outline>().OutlineWidth = 20;
-                    }
-                    break;
-                case 94:
-                    if (f_key.GetComponent<Outline>().OutlineWidth <= 0)
-                    {
-                        f_key.GetComponent<Outline>().OutlineWidth = 20;
-                    }
-                    break;
-
                 case 95:
-                    if (d_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (h_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        d_key.GetComponent<Outline>().OutlineWidth = 20;
+                        h_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
                 case 96:
-                    if (s_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (g_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        s_key.GetComponent<Outline>().OutlineWidth = 20;
+                        g_key.GetComponent<Outline>().OutlineWidth = 20;
+                        d_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
 
                 case 97:
-                    if (a_key.GetComponent<Outline>().OutlineWidth <= 0)
+                    if (h_key.GetComponent<Outline>().OutlineWidth <= 0)
                     {
-                        a_key.GetComponent<Outline>().OutlineWidth = 20;
+                        h_key.GetComponent<Outline>().OutlineWidth = 20;
+                        f_key.GetComponent<Outline>().OutlineWidth = 20;
+                        s_key.GetComponent<Outline>().OutlineWidth = 20;
                     }
                     break;
                 case 98:
@@ -787,7 +794,7 @@ namespace JR
                     playBackSign.SetActive(true);
                     break;
                 case 106:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.h_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check1 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -795,7 +802,7 @@ namespace JR
                     break;
 
                 case 107:
-                    if (inputHandler.j_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.l_Input && inputHandler.j_Input && amountOfKeysPressed == 2)//should match this Case -16
                     {
                         check2 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -803,7 +810,7 @@ namespace JR
                     break;
 
                 case 108:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.g_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check3 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -811,7 +818,7 @@ namespace JR
                     break;
                 case 109:
                     playBackSign.SetActive(true);
-                    if (inputHandler.k_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.f_Input && inputHandler.s_Input && amountOfKeysPressed == 2)//should match this Case -16
                     {
                         check4 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -819,7 +826,7 @@ namespace JR
                     break;
 
                 case 110:
-                    if (inputHandler.f_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.j_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check5 = true;
                         Debug.Log("pass" + beatsPassed);
@@ -827,21 +834,21 @@ namespace JR
                     break;
 
                 case 111:
-                    if (inputHandler.d_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.h_Input && amountOfKeysPressed == 1)//should match this Case -16
                     {
                         check6 = true;
                         Debug.Log("pass" + beatsPassed);
                     }
                     break;
                 case 112:
-                    if (inputHandler.s_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.g_Input && inputHandler.d_Input && amountOfKeysPressed == 2)//should match this Case -16
                     {
                         check7 = true;
                         Debug.Log("pass" + beatsPassed);
                     }
                     break;
                 case 113:
-                    if (inputHandler.a_Input && amountOfKeysPressed == 1)//should match this Case -16
+                    if (inputHandler.h_Input && inputHandler.f_Input && inputHandler.s_Input && amountOfKeysPressed == 3)//should match this Case -16
                     {
                         check8 = true;
                         Debug.Log("pass" + beatsPassed);
