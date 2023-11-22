@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace JR
 {
@@ -18,6 +19,7 @@ namespace JR
         public bool k_Input;
         public bool l_Input;
         public bool semiColon_Input;
+        public AudioSource keyPressThud;
 
         public void OnEnable()
         {
@@ -35,6 +37,7 @@ namespace JR
         public void TickInput(float delta)
         {
             HandleKeyInput(delta);
+            PlayThud(delta);
         }
         private void HandleKeyInput(float delta)
         {
@@ -60,6 +63,30 @@ namespace JR
             inputActions.PianoKeys.KKey.canceled += i => k_Input = false;
             inputActions.PianoKeys.LKey.canceled += i => l_Input = false;
             inputActions.PianoKeys.SemiColonKey.canceled += i => semiColon_Input = false;
+        }
+        public void PlayThud(float delta)
+        {
+            if (inputActions.PianoKeys.AKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.SKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.DKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.FKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.GKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.HKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.JKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.KKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.LKey.triggered)
+                keyPressThud.Play();
+            if (inputActions.PianoKeys.SemiColonKey.triggered)
+                keyPressThud.Play();
+
         }
     }
 }
